@@ -1,0 +1,21 @@
+<ng-template #headerNode>
+  @let messageHeader = kcContext.messageHeader;
+  @let message = kcContext.message;
+  <span [innerHTML]="messageHeader ?? i18n.advancedMsgStr(message.summary) | kcSanitize: 'html'"> </span>
+</ng-template>
+<div
+  id="kc-info-message"
+  style="text-align: center; padding: 2rem"
+>
+  <app-check-icon
+    width="75"
+    height="75"
+    style="margin-bottom: 2rem"
+  ></app-check-icon>
+
+  <h2 style="color: #007bff; margin-bottom: 1rem; font-weight: 600; font-size: 1.2rem">Verificación exitosa</h2>
+
+  <p style="font-size: 0.9rem; color: #333; margin-bottom: 2rem">Tu correo electrónico ha sido verificado</p>
+
+  <button class="kcButtonClass">Aceptar</button>
+</div>

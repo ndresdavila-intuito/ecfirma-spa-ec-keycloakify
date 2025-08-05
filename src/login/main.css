@@ -1,0 +1,160 @@
+.kcFormCardClass {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 3rem !important;
+  background: white !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(80px);
+}
+
+.kcFormCardClass {
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+#kc-page-title {
+  border-top: none;
+  border-bottom: none;
+}
+
+#kc-content {
+  transform: translateY(-10%);
+}
+
+.kcButtonClass {
+  background-color: #007bff; /* Azul base */
+  color: white;
+  border: none;
+  border-radius: 22px; /* Bordes redondeados */
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.kcButtonClass:hover {
+  background-color: #0056b3; /* Azul más oscuro al hacer hover */
+}
+
+/* Inputs OTP */
+.p-inputotp input.custom-otp-input {
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 0 0.3rem;
+}
+
+.kcInputWrapperClass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.docs-modal-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background-color: white !important;
+  border-radius: 0.75rem !important;
+  width: 600px !important;
+  height: 600px !important;
+  overflow: hidden !important;
+}
+
+.docs-modal-bar {
+  background-color: #004876 !important;
+  width: 100% !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+.docs-modal-bar-top,
+.docs-modal-bar-bottom {
+  height: 12.5% !important; /* 1/8 del alto total */
+}
+
+.docs-modal-content {
+  margin: 1.5rem 2rem !important;
+  padding: 1.25rem !important;
+  background-color: white !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid #d1d5db !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.docs-modal-paragraph {
+  font-size: 0.875rem !important;
+  color: #374151 !important; /* text-gray-700 */
+  margin: 0 !important;
+}
+
+.docs-modal-button {
+  width: 50% !important;
+  background-color: #007bff !important; /* azul correcto */
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s ease-in-out !important;
+  margin-bottom: 1rem !important;
+  border: none !important;
+}
+
+.docs-modal-button:hover {
+  background-color: #0056b3 !important; /* azul más oscuro */
+  cursor: pointer;
+}
+
+.docs-modal-bar-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.docs-modal-bar-top h4 {
+  color: white !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.modal-overlay {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-25%, -60%) !important;
+  width: 100vw !important;
+  height: 150vh !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+}
+
+.icon-style {
+  display: block;
+}
+
+.background-svg {
+  width: 52%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-svg-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

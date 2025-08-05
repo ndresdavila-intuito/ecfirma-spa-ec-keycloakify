@@ -1,0 +1,105 @@
+@let url = kcContext.url;
+@let messagesPerField = kcContext.messagesPerField;
+
+<ng-template #headerNode>
+  <div class="flex flex-col items-center text-center gap-4">
+    <div style="color: #007bff; font-weight: 600; font-size: 1.2rem; margin-bottom: 1rem">
+      Verifica tu correo electrónico
+    </div>
+
+    <app-verificar-correo
+      [width]="'60px'"
+      [height]="'60px'"
+    ></app-verificar-correo>
+
+    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
+      Enviamos un código de verificación a <strong>[correo&#64;outlook.com]</strong>
+    </p>
+  </div>
+</ng-template>
+
+<form
+  id="kc-otp-login-form"
+  method="post"
+  [kcClass]="['kcFormClass']"
+  [action]="url.loginAction"
+>
+  <!-- OTP FIELD -->
+  <div [kcClass]="'kcFormGroupClass'">
+    <div
+      [kcClass]="'kcInputWrapperClass'"
+      class="flex justify-center"
+    >
+      <p-inputotp
+        [(ngModel)]="otpValue"
+        name="otp"
+        [length]="6"
+        [integerOnly]="true"
+        [mask]="true"
+        [invalid]="messagesPerField.existsError('totp')"
+        required
+      >
+        <ng-template
+          #input
+          let-token
+          let-events="events"
+          let-index="index"
+        >
+          <input
+            [attr.name]="index === 0 ? 'otp' : null"
+            [attr.id]="index === 0 ? 'otp' : null"
+            class="custom-otp-input"
+            type="text"
+            maxlength="1"
+            [attr.value]="token"
+            (input)="events.input($event)"
+            (keydown)="events.keydown($event)"
+          />
+        </ng-template>
+      </p-inputotp>
+    </div>
+
+    @if (messagesPerField.existsError('totp')) {
+      <div class="mt-2 text-red-600 text-sm">
+        <span
+          id="input-error-otp-code"
+          aria-live="polite"
+          [kcClass]="'kcInputErrorMessageClass'"
+          [innerHTML]="messagesPerField.get('totp') | kcSanitize: 'html'"
+        ></span>
+      </div>
+    }
+  </div>
+
+  <div style="text-align: center">
+    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
+      ¿No recibiste el código? <span style="color: #007bff; font-size: 0.8rem; white-space: nowrap">Reenviar</span>
+    </p>
+
+    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
+      ¿Necesitas cambiar el correo?
+      <span style="color: #007bff; font-size: 0.8rem; white-space: nowrap">Modificar</span>
+    </p>
+  </div>
+
+  <!-- SUBMIT -->
+  <div [kcClass]="'kcFormGroupClass'">
+    <div
+      id="kc-form-options"
+      [kcClass]="'kcFormOptionsClass'"
+    ></div>
+
+    <div
+      id="kc-form-buttons"
+      [kcClass]="'kcFormButtonsClass'"
+    >
+      <input
+        name="login"
+        id="kc-login"
+        type="submit"
+        [kcClass]="['kcButtonClass', 'kcButtonPrimaryClass', 'kcButtonBlockClass', 'kcButtonLargeClass']"
+        [value]="'Enviar'"
+      />
+    </div>
+  </div>
+</form>

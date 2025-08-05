@@ -1,0 +1,258 @@
+@let url = kcContext.url;
+@let messagesPerField = kcContext.messagesPerField;
+@let recaptchaRequired = kcContext.recaptchaRequired;
+@let recaptchaVisible = kcContext.recaptchaVisible;
+@let recaptchaSiteKey = kcContext.recaptchaSiteKey;
+@let recaptchaAction = kcContext.recaptchaAction;
+@let termsAcceptanceRequired = kcContext.termsAcceptanceRequired;
+
+<ng-template #headerNode>
+  @let url = kcContext.url;
+
+  <app-intuito-logo
+    [width]="'60%'"
+    [height]="'auto'"
+    style="margin: 0 auto 2rem auto; display: block"
+  ></app-intuito-logo>
+
+  <div style="font-size: 1rem; color: #007bff; text-align: center; margin-bottom: 2rem">
+    <strong>Regístrate</strong>
+  </div>
+  <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 2rem">
+    ¿Ya tienes una cuenta?
+    <a
+      tabindex="8"
+      [href]="url?.loginUrl"
+      style="color: #007bff; text-decoration: none"
+    >
+      Inicia Sesión
+    </a>
+  </p>
+</ng-template>
+<form
+  id="kc-register-form"
+  method="post"
+  [kcClass]="'kcFormClass'"
+  [action]="url.registrationAction"
+>
+  <!-- Campos personalizados -->
+  <div
+    class="form-group"
+    [kcClass]="'kcLabelWrapperClass'"
+  >
+    <label [kcClass]="'kcLabelClass'">Seleccione el tipo de identificación</label>
+    <div style="display: flex; gap: 1rem; margin-top: 0.5rem">
+      <label style="display: flex; align-items: center; gap: 0.25rem">
+        <input
+          type="radio"
+          name="identificationType"
+          value="cedula"
+          checked
+        />
+        Cédula
+      </label>
+
+      <label style="display: flex; align-items: center; gap: 0.25rem">
+        <input
+          type="radio"
+          name="identificationType"
+          value="pasaporte"
+        />
+        Pasaporte
+      </label>
+    </div>
+  </div>
+
+  <div
+    class="form-group"
+    [kcClass]="'kcLabelWrapperClass'"
+  >
+    <label
+      [kcClass]="'kcLabelClass'"
+      for="identificationNumber"
+      >Número de identificación *</label
+    >
+    <input
+      id="identificationNumber"
+      name="identificationNumber"
+      type="text"
+      [kcClass]="'kcInputClass'"
+      style="width: 111%"
+      required
+    />
+  </div>
+
+  <div
+    class="form-group"
+    [kcClass]="'kcLabelWrapperClass'"
+  >
+    <label
+      [kcClass]="'kcLabelClass'"
+      for="phoneNumber"
+      >Número de Celular *</label
+    >
+    <input
+      id="phoneNumber"
+      name="phoneNumber"
+      type="tel"
+      [kcClass]="'kcInputClass'"
+      style="width: 111%"
+      required
+    />
+  </div>
+
+  <kc-user-profile-form-fields>
+    <ng-template
+      #afterField
+      let-attribute="attribute"
+    >
+    </ng-template>
+  </kc-user-profile-form-fields>
+
+  @if (termsAcceptanceRequired) {
+    <div class="form-group">
+      <div [kcClass]="'kcInputWrapperClass'">
+        {{ i18n.msgStr('termsTitle') }}
+        <div id="kc-registration-terms-text">
+          {{ i18n.msgStr('termsText') }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div [kcClass]="'kcLabelWrapperClass'">
+        <input
+          type="checkbox"
+          id="termsAccepted"
+          name="termsAccepted"
+          [kcClass]="'kcCheckboxInputClass'"
+          [checked]="areTermsAccepted()"
+          [attr.aria-invalid]="messagesPerField.existsError('termsAccepted')"
+          (change)="areTermsAccepted.set($any($event.target).checked)"
+        />
+        <label
+          for="termsAccepted"
+          [kcClass]="'kcLabelClass'"
+        >
+          {{ i18n.msgStr('acceptTerms') }}
+        </label>
+      </div>
+      @if (messagesPerField.existsError('termsAccepted')) {
+        <div [kcClass]="'kcLabelWrapperClass'">
+          <span
+            id="input-error-terms-accepted"
+            aria-live="polite"
+            [kcClass]="'kcInputErrorMessageClass'"
+            [innerHtml]="messagesPerField.get('termsAccepted') | kcSanitize: 'html'"
+          ></span>
+        </div>
+      }
+    </div>
+  }
+  @if (recaptchaRequired && (recaptchaVisible || recaptchaAction === undefined)) {
+    <div class="form-group">
+      <div [kcClass]="'kcInputWrapperClass'">
+        <div
+          class="g-recaptcha"
+          data-size="compact"
+          [attr.data-sitekey]="recaptchaSiteKey"
+          [attr.data-action]="recaptchaAction"
+        ></div>
+      </div>
+    </div>
+  }
+
+  <div [kcClass]="'kcFormGroupClass'">
+    <div
+      id="kc-form-options"
+      [kcClass]="'kcFormOptionsClass'"
+    ></div>
+    @if (recaptchaRequired && !recaptchaVisible && recaptchaAction !== undefined) {
+      <div
+        id="kc-form-buttons"
+        [kcClass]="'kcFormButtonsClass'"
+      >
+        <button
+          class="g-recaptcha"
+          type="submit"
+          [kcClass]="['kcButtonClass', 'kcButtonPrimaryClass', 'kcButtonBlockClass', 'kcButtonLargeClass']"
+          [attr.data-sitekey]="recaptchaSiteKey"
+          [attr.data-callback]="onCallback"
+          [attr.data-action]="recaptchaAction"
+        >
+          {{ i18n.msgStr('doRegister') }}
+        </button>
+      </div>
+    } @else {
+      <div
+        class="custom-checkboxes"
+        style="text-align: left; margin-top: 2rem; margin-left: 1.25rem"
+        [kcClass]="'kcFormGroupClass'"
+      >
+        <div style="display: flex; align-items: start; gap: 0.5rem">
+          <input
+            id="aceptoTodo"
+            type="checkbox"
+            name="aceptoTodo"
+            required
+            [kcClass]="'kcCheckboxInputClass'"
+          />
+          <label
+            for="aceptoTodo"
+            style="flex: 1"
+          >
+            He leído y acepto los
+            <a
+              href="javascript:void(0)"
+              (click)="showTerminosModal.set(true)"
+              style="color: #007bff; text-decoration: underline"
+            >
+              Términos y Condiciones de uso </a
+            >, el
+            <a
+              href="javascript:void(0)"
+              (click)="showContratoModal.set(true)"
+              style="color: #007bff; text-decoration: underline"
+            >
+              Contrato de Servicio
+            </a>
+            y el
+            <a
+              href="javascript:void(0)"
+              (click)="showTratamientoModal.set(true)"
+              style="color: #007bff; text-decoration: underline"
+            >
+              Tratamiento de Datos </a
+            >.
+          </label>
+        </div>
+      </div>
+
+      <div
+        id="kc-form-buttons"
+        [kcClass]="'kcFormButtonsClass'"
+      >
+        <input
+          type="submit"
+          [disabled]="!isFormSubmittable() || (termsAcceptanceRequired && !areTermsAccepted())"
+          [kcClass]="['kcButtonClass', 'kcButtonPrimaryClass', 'kcButtonBlockClass', 'kcButtonLargeClass']"
+          [value]="i18n.msgStr('doRegister')"
+        />
+      </div>
+    }
+  </div>
+</form>
+
+<modal-terminos-condiciones
+  [isOpen]="showTerminosModal()"
+  (onAccepted)="aceptarTerminos()"
+></modal-terminos-condiciones>
+
+<modal-contrato-servicio
+  [isOpen]="showContratoModal()"
+  (onAccepted)="aceptarContrato()"
+></modal-contrato-servicio>
+
+<modal-tratamiento-datos
+  [isOpen]="showTratamientoModal()"
+  (onAccepted)="aceptarTratamiento()"
+></modal-tratamiento-datos>
