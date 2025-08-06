@@ -53,18 +53,7 @@ export class UserProfileFormFieldsComponent extends ComponentReference {
 
   formState$ = this.#userProfileFormService.formState$;
 
-  // Campos permitidos para mostrar
-  readonly allowedAttributes = ['email', 'password', 'password-confirm'];
-
-  // Solo mostrar campos filtrados
-  readonly filteredFormFieldStates$ = this.formState$.pipe(
-    map((state) => {
-      const filtered = state.formFieldStates.filter((f) => this.allowedAttributes.includes(f.attribute.name));
-
-      // Ordenar según allowedAttributes
-      return this.allowedAttributes.map((attr) => filtered.find((f) => f.attribute.name === attr)!).filter(Boolean); // por seguridad si falta alguno
-    }),
-  );
+  readonly filteredFormFieldStates$ = this.formState$.pipe(map((state) => state.formFieldStates));
 
   xAttributeLocale$ = this.formState$.pipe(map((s) => s.formFieldStates.find((x) => x.attribute.name === 'locale')));
 

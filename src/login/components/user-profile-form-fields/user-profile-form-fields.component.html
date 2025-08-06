@@ -29,12 +29,18 @@
         <label
           [for]="fieldState.attribute.name"
           [kcClass]="'kcLabelClass'"
+          style="display: block; margin-bottom: 0.25rem"
         >
           {{ i18n.advancedMsgStr(fieldState.attribute.displayName ?? '') }}
           @if (fieldState.attribute.required) {
             *
           }
         </label>
+
+        <kc-field-errors
+          [attribute]="fieldState.attribute"
+          [displayableErrors]="fieldState.displayableErrors"
+        />
 
         @if (fieldState.attribute.name === 'password') {
           <p style="font-size: 0.75rem; margin: 0.25rem 0 0 0; color: #6c757d">
@@ -60,11 +66,6 @@
           [valueOrValues]="fieldState.valueOrValues"
           [displayableErrors]="fieldState.displayableErrors"
           (dispatchFormAction)="onDispatch($event)"
-        />
-
-        <kc-field-errors
-          [attribute]="fieldState.attribute"
-          [displayableErrors]="fieldState.displayableErrors"
         />
 
         @if (fieldState.attribute.annotations.inputHelperTextAfter) {

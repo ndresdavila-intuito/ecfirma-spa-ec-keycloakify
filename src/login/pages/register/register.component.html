@@ -8,7 +8,6 @@
 
 <ng-template #headerNode>
   @let url = kcContext.url;
-
   <app-intuito-logo
     [width]="'60%'"
     [height]="'auto'"
@@ -19,7 +18,7 @@
     <strong>Regístrate</strong>
   </div>
 
-  <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 2rem">
+  <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 3.5rem">
     ¿Ya tienes una cuenta?
     <a
       tabindex="8"
@@ -37,71 +36,6 @@
   [kcClass]="'kcFormClass'"
   [action]="url.registrationAction"
 >
-  <div
-    class="form-group"
-    [kcClass]="'kcLabelWrapperClass'"
-  >
-    <label [kcClass]="'kcLabelClass'">Seleccione el tipo de identificación</label>
-    <div style="display: flex; gap: 1rem; margin-top: 0.5rem">
-      <label style="display: flex; align-items: center; gap: 0.25rem">
-        <input
-          type="radio"
-          name="identificationType"
-          value="cedula"
-          checked
-        />
-        Cédula
-      </label>
-
-      <label style="display: flex; align-items: center; gap: 0.25rem">
-        <input
-          type="radio"
-          name="identificationType"
-          value="pasaporte"
-        />
-        Pasaporte
-      </label>
-    </div>
-  </div>
-
-  <div
-    class="form-group"
-    [kcClass]="'kcLabelWrapperClass'"
-  >
-    <label
-      [kcClass]="'kcLabelClass'"
-      for="identificationNumber"
-      >Número de identificación *</label
-    >
-    <input
-      id="identificationNumber"
-      name="identificationNumber"
-      type="text"
-      [kcClass]="'kcInputClass'"
-      style="width: 111%"
-      required
-    />
-  </div>
-
-  <div
-    class="form-group"
-    [kcClass]="'kcLabelWrapperClass'"
-  >
-    <label
-      [kcClass]="'kcLabelClass'"
-      for="phoneNumber"
-      >Número de Celular *</label
-    >
-    <input
-      id="phoneNumber"
-      name="phoneNumber"
-      type="tel"
-      [kcClass]="'kcInputClass'"
-      style="width: 111%"
-      required
-    />
-  </div>
-
   <kc-user-profile-form-fields>
     <ng-template
       #afterField

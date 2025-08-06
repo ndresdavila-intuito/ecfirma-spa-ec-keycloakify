@@ -56,6 +56,14 @@
   align-items: center;
 }
 
+.kcInputClass {
+  margin-bottom: 0.5rem;
+}
+
+.kcFormPasswordVisibilityButtonClass {
+  margin-bottom: 0.5rem;
+}
+
 .docs-modal-container {
   display: flex !important;
   flex-direction: column !important;
