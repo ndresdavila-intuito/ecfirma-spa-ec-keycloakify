@@ -18,6 +18,7 @@
   <div style="font-size: 1rem; color: #007bff; text-align: center; margin-bottom: 2rem">
     <strong>Regístrate</strong>
   </div>
+
   <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 2rem">
     ¿Ya tienes una cuenta?
     <a
@@ -29,13 +30,13 @@
     </a>
   </p>
 </ng-template>
+
 <form
   id="kc-register-form"
   method="post"
   [kcClass]="'kcFormClass'"
   [action]="url.registrationAction"
 >
-  <!-- Campos personalizados -->
   <div
     class="form-group"
     [kcClass]="'kcLabelWrapperClass'"

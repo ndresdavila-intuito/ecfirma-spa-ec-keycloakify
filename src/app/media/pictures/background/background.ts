@@ -15,8 +15,8 @@ import { Component, input } from '@angular/core';
       class="background-svg-svg"
     >
       <rect
-        width="924"
-        height="1117"
+        width="100%"
+        height="100%"
         fill="url(#pattern0_3_157)"
       />
       <defs>
