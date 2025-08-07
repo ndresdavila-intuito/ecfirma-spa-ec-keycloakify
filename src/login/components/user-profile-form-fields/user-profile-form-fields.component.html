@@ -34,12 +34,11 @@
           @if (fieldState.attribute.required) {
             *
           }
+          <kc-field-errors
+            [attribute]="fieldState.attribute"
+            [displayableErrors]="fieldState.displayableErrors"
+          />
         </label>
-
-        <kc-field-errors
-          [attribute]="fieldState.attribute"
-          [displayableErrors]="fieldState.displayableErrors"
-        />
 
         @if (fieldState.attribute.name === 'password') {
           <p style="font-size: 0.75rem; margin: 0.25rem 0 0 0; color: #6c757d">

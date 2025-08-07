@@ -1,7 +1,7 @@
 .kcFormCardClass {
   box-shadow: none !important;
   border-radius: 0 !important;
-  padding: 3rem !important;
+  padding: 1rem !important;
   background: white !important;
   display: flex;
   flex-direction: column;
@@ -55,6 +55,8 @@
   justify-content: center;
   align-items: center;
 }
+
+/*kcInputWrapperClass modificar CSS para kcInputClassRadio pf-c-radio*/
 
 .kcInputClass {
   margin-bottom: 0.5rem;
@@ -171,4 +173,44 @@
   height: 100vh;
 
   overflow: hidden;
+}
+
+/* Estilos para las etiquetas flotantes de PrimeNG */
+p-floatlabel label,
+.p-float-label label,
+.p-floatlabel .p-float-label label {
+  color: var(--color-gray-600) !important;
+}
+
+/* Estilo de la etiqueta cuando el input tiene el foco o está lleno */
+p-floatlabel.p-focus label,
+.p-float-label.p-focus label,
+p-floatlabel.p-input-filled label,
+.p-float-label.p-input-filled label {
+  color: var(--color-background) !important;
+}
+
+/* Estilos cuando el input tiene el hover (al pasar el mouse sobre él) */
+p-floatlabel:hover .p-inputtext,
+.p-float-label:hover .p-inputtext {
+  border-color: var(--color-primary) !important;
+}
+
+/* Estilos para cuando el campo de entrada está enfocado */
+p-floatlabel.p-focus .p-inputtext,
+.p-float-label.p-focus .p-inputtext {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 1px var(--color-primary) !important;
+}
+
+/* Estilos para el borde del input, específicamente cuando está en foco */
+p-select .p-inputtext,
+p-select .p-dropdown {
+  border-color: var(--color-primary) !important;
+}
+
+/* Estilo para el texto del placeholder del input */
+input::placeholder {
+  font-size: 0.75rem;
+  color: #a5a5a5;
 }
