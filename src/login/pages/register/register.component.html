@@ -130,7 +130,9 @@
             name="aceptoTodo"
             required
             [kcClass]="'kcCheckboxInputClass'"
+            (change)="aceptoTodo.set($event.target.checked)"
           />
+
           <label
             for="aceptoTodo"
             style="flex: 1"
@@ -168,7 +170,7 @@
       >
         <input
           type="submit"
-          [disabled]="!isFormSubmittable() || (termsAcceptanceRequired && !areTermsAccepted())"
+          [disabled]="!isFormSubmittable() || !aceptoTodo()"
           [kcClass]="['kcButtonClass', 'kcButtonPrimaryClass', 'kcButtonBlockClass', 'kcButtonLargeClass']"
           [value]="i18n.msgStr('doRegister')"
         />

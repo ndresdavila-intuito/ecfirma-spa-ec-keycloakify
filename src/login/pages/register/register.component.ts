@@ -77,6 +77,8 @@ export class RegisterComponent extends ComponentReference {
   showContratoModal = signal(false);
   showTratamientoModal = signal(false);
 
+  aceptoTodo = signal(false);
+
   aceptarTerminos = () => {
     this.showTerminosModal.set(false);
     this.cdr.detectChanges();
