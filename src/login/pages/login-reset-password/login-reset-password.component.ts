@@ -9,9 +9,10 @@ import { LOGIN_CLASSES } from '@keycloakify/angular/login/tokens/classes';
 import { LOGIN_I18N } from '@keycloakify/angular/login/tokens/i18n';
 import { KC_LOGIN_CONTEXT } from '@keycloakify/angular/login/tokens/kc-context';
 import type { ClassKey } from 'keycloakify/login/lib/kcClsx';
+import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/intuito-logo';
 
 @Component({
-  imports: [KcClassDirective, KcSanitizePipe],
+  imports: [KcClassDirective, KcSanitizePipe, IntuitoLogo],
   selector: 'kc-login-reset-password',
   templateUrl: 'login-reset-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
