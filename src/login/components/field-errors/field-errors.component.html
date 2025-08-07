@@ -1,15 +1,15 @@
 @let index = fieldIndex();
-<span
-  aria-live="polite"
-  [id]="'input-error-' + attribute.name + (index === undefined ? '' : '-' + index)"
-  [kcClass]="'kcInputErrorMessageClass'"
->
-  @for (error of displayableErrors(); track error; let i = $index) {
-    @if (error.fieldIndex === index) {
-      <span [innerHTML]="error.errorMessage"></span>
-      @if (displayableErrors()?.length ?? 0 - 1 !== i) {
-        <br />
-      }
+@let attr = attribute();
+
+@if (attr) {
+  <span
+    aria-live="polite"
+    [id]="'input-error-' + attr.name + (index === undefined ? '' : '-' + index)"
+    [kcClass]="'kcInputErrorMessageClass'"
+  >
+    @if (firstErrorMessage()) {
+      <br />
+      <span [innerHTML]="firstErrorMessage()"></span>
     }
-  }
-</span>
+  </span>
+}

@@ -1,5 +1,4 @@
 @let filteredFormFieldStates = filteredFormFieldStates$ | async;
-@let xAttributeLocale = xAttributeLocale$ | async;
 
 @if (filteredFormFieldStates) {
   @for (fieldState of filteredFormFieldStates; track fieldState.attribute) {

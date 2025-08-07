@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, inject, input, computed } from '@angular/core';
 import { USE_DEFAULT_CSS } from '@keycloakify/angular/lib/tokens/use-default-css';
 import { ComponentReference } from '@keycloakify/angular/login/classes/component-reference';
 import { KcClassDirective } from '@keycloakify/angular/login/directives/kc-class';
@@ -32,4 +32,14 @@ export class FieldErrorsComponent extends ComponentReference {
   fieldIndex = input<number>();
   override doUseDefaultCss = inject<boolean>(USE_DEFAULT_CSS);
   override classes = inject<Partial<Record<ClassKey, string>>>(LOGIN_CLASSES);
+
+  readonly firstErrorMessage = computed(() => {
+    const errors = this.displayableErrors();
+    const index = this.fieldIndex();
+
+    if (!errors || errors.length === 0) return undefined;
+
+    const error = errors.find((e) => e.fieldIndex === index) ?? errors[0];
+    return error?.errorMessage;
+  });
 }

@@ -24,17 +24,17 @@
 }
 
 .kcButtonClass {
-  background-color: #007bff; /* Azul base */
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 22px; /* Bordes redondeados */
+  border-radius: 22px;
   padding: 0.75rem 1.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Transición suave */
+  transition: background-color 0.3s ease;
 }
 
 .kcButtonClass:hover {
-  background-color: #0056b3; /* Azul más oscuro al hacer hover */
+  background-color: #0056b3;
 }
 
 /* Inputs OTP */
@@ -85,7 +85,7 @@
 
 .docs-modal-bar-top,
 .docs-modal-bar-bottom {
-  height: 12.5% !important; /* 1/8 del alto total */
+  height: 12.5% !important;
 }
 
 .docs-modal-content {
@@ -102,13 +102,13 @@
 
 .docs-modal-paragraph {
   font-size: 0.875rem !important;
-  color: #374151 !important; /* text-gray-700 */
+  color: #374151 !important;
   margin: 0 !important;
 }
 
 .docs-modal-button {
   width: 50% !important;
-  background-color: #007bff !important; /* azul correcto */
+  background-color: #007bff !important;
   color: white !important;
   padding: 0.75rem 1rem !important;
   border-radius: 5rem !important;
@@ -120,7 +120,7 @@
 }
 
 .docs-modal-button:hover {
-  background-color: #0056b3 !important; /* azul más oscuro */
+  background-color: #0056b3 !important;
   cursor: pointer;
 }
 
