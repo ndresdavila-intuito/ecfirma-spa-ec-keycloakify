@@ -206,6 +206,5 @@
 
 .kcHtmlClass {
   height: 100vh;
-
-  overflow: hidden;
+  overflow-y: auto;
 }
