@@ -169,9 +169,10 @@
         [kcClass]="'kcFormButtonsClass'"
       >
         <input
-          type="submit"
+          type="button"
           [disabled]="!isFormSubmittable() || !aceptoTodo()"
           [kcClass]="['kcButtonClass', 'kcButtonPrimaryClass', 'kcButtonBlockClass', 'kcButtonLargeClass']"
+          (click)="onCallback()"
           [value]="i18n.msgStr('doRegister')"
         />
       </div>

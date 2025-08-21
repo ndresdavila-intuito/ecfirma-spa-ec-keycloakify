@@ -30,6 +30,7 @@ import { ContratoDeServicio } from '../../../app/features/modals/contrato-de-ser
 import { TratamientoDeDatos } from '../../../app/features/modals/tratamiento-de-datos/tratamiento-de-datos';
 import { ChangeDetectorRef } from '@angular/core';
 import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/intuito-logo';
+import { HttpClient, HttpXhrBackend } from '@angular/common/http';
 
 @Component({
   selector: 'kc-register',
@@ -52,6 +53,8 @@ import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/int
   ],
 })
 export class RegisterComponent extends ComponentReference {
+  private http = new HttpClient(new HttpXhrBackend({ build: () => new XMLHttpRequest() }));
+
   kcContext = inject<Extract<KcContext, { pageId: 'register.ftl' }>>(KC_LOGIN_CONTEXT);
   i18n = inject<I18n>(LOGIN_I18N);
 
@@ -101,7 +104,11 @@ export class RegisterComponent extends ComponentReference {
   userProfileFormFields = () => UserProfileFormFieldsComponent;
 
   onCallback() {
-    (document.getElementById('kc-register-form') as HTMLFormElement).submit();
+    // 1. Enviar datos al endpoint mock
+    this.enviarRegistroMock().then(() => {
+      // 2. Luego enviar el formulario al endpoint real de Keycloak
+      (document.getElementById('kc-register-form') as HTMLFormElement).submit();
+    });
   }
 
   onAceptoTodoChange(event: Event) {
@@ -113,5 +120,58 @@ export class RegisterComponent extends ComponentReference {
     return typeof window !== 'undefined' && window.location.href.includes('/realms/')
       ? './resources/img/titulo-appfirma.png'
       : '/src/login/assets/titulo-appfirma.png';
+  }
+
+  async enviarRegistroMock() {
+    console.log('[MockAPI] Entrando a enviarRegistroMock');
+
+    const form = document.getElementById('kc-register-form') as HTMLFormElement;
+    if (!form) {
+      console.warn('[MockAPI] Formulario no encontrado');
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const tipoIdentificacion = formData.get('tipoIdentificacion') as string;
+    const username = formData.get('username') as string;
+    const numeroCelular = formData.get('numeroCelular') as string;
+    const email = formData.get('email') as string;
+
+    console.log('[MockAPI] Datos obtenidos del formulario:');
+    console.log('  tipoIdentificacion:', tipoIdentificacion);
+    console.log('  username:', username);
+    console.log('  numeroCelular:', numeroCelular);
+    console.log('  email:', email);
+
+    // Mapear tipoIdentificacion a idTipoIdentificacion
+    const idTipoIdentificacion =
+      tipoIdentificacion === 'Cédula'
+        ? '9eb1b35e-5497-4d11-96ad-d2d70b26187e'
+        : tipoIdentificacion === 'Pasaporte'
+          ? '754143a3-177d-4c73-ac7c-025b1b5d7966'
+          : null;
+
+    if (!idTipoIdentificacion) {
+      console.warn('[MockAPI] tipoIdentificacion no válido:', tipoIdentificacion);
+    }
+
+    const body = {
+      idTipoIdentificacion,
+      identificacion: username,
+      numeroCelular,
+      correo: email,
+    };
+
+    console.log('[MockAPI] Body que se enviará al mock API:', body);
+
+    try {
+      const res = await this.http
+        .post<{ id: number; username: string }>('https://jsonplaceholder.typicode.com/posts', body)
+        .toPromise();
+      console.log('[MockAPI] Mock enviado con éxito:', res);
+    } catch (err) {
+      console.error('[MockAPI] Error al enviar mock:', err);
+    }
   }
 }
