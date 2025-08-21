@@ -111,7 +111,7 @@ export class RegisterComponent extends ComponentReference {
 
   getLogoUrl(): string {
     return typeof window !== 'undefined' && window.location.href.includes('/realms/')
-      ? './resources/img/intuito-logo.png'
-      : '/src/login/assets/intuito-logo.png';
+      ? './resources/img/titulo-appfirma.png'
+      : '/src/login/assets/titulo-appfirma.png';
   }
 }

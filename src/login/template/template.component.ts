@@ -102,7 +102,7 @@ export class TemplateComponent extends ComponentReference {
   }
 
   getLogoUrl(): string {
-    return this.isRunningInKeycloak() ? './resources/img/intuito-logo.png' : '/src/login/assets/intuito-logo.png';
+    return this.isRunningInKeycloak() ? './resources/img/titulo-appfirma.png' : '/src/login/assets/titulo-appfirma.png';
   }
 
   private applyKcIndexClasses() {
