@@ -130,7 +130,7 @@
             name="aceptoTodo"
             required
             [kcClass]="'kcCheckboxInputClass'"
-            (change)="aceptoTodo.set($event.target.checked)"
+            (change)="onAceptoTodoChange($event)"
           />
 
           <label

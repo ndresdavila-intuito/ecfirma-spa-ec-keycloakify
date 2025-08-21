@@ -39,7 +39,6 @@ import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/int
     KcClassDirective,
     KcSanitizePipe,
     UserProfileFormFieldsComponent,
-    CommonModule,
     TerminosyCondiciones,
     ContratoDeServicio,
     TratamientoDeDatos,
@@ -103,6 +102,11 @@ export class RegisterComponent extends ComponentReference {
 
   onCallback() {
     (document.getElementById('kc-register-form') as HTMLFormElement).submit();
+  }
+
+  onAceptoTodoChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.aceptoTodo.set(input.checked);
   }
 
   getLogoUrl(): string {
