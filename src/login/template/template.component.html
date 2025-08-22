@@ -215,18 +215,52 @@
       </div>
     </div>
 
-    <!-- Sección derecha (imagen) -->
-    <!--<app-background-image class="background-svg" />-->
-    <!-- Sección derecha (imagen) -->
     <div
       style="
         width: 52%;
         background-image: url('../../../public/keycloakify-dev-resources/login/img/background.png');
         background-size: cover;
         background-position: center;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
       "
     >
-      <!-- Puedes agregar contenido adicional si quieres -->
+      <!-- Container con efecto liquid glass -->
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.1); /* fondo semitransparente */
+          backdrop-filter: blur(15px); /* desenfoque tipo liquid glass */
+          -webkit-backdrop-filter: blur(15px);
+          border-radius: 1rem;
+          padding: 3rem 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          color: white;
+          max-width: 90%;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        "
+      >
+        <!-- GIF centrado -->
+        <img
+          src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+          alt="Checkmark"
+          style="width: 50%; height: auto; margin-bottom: 2rem"
+        />
+
+        <!-- Título -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Firma electrónica con validez digital</h2>
+
+        <!-- Texto -->
+        <p style="font-size: 1.1rem; line-height: 1.5">
+          Tus documentos protegidos con tecnología avanzada<br />
+          y en cumplimiento con la norma vigente
+        </p>
+      </div>
     </div>
   </div>
 }
