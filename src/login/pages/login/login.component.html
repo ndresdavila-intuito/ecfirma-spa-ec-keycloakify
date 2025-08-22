@@ -6,42 +6,21 @@
 @let login = kcContext.login;
 
 <ng-template #headerNode>
-  @let url = kcContext.url;
   <app-intuito-logo
     [width]="'60%'"
     [height]="'auto'"
-    style="margin: 0 auto 2rem auto; display: block"
+    style="margin: 0 auto 3rem auto; display: block"
   ></app-intuito-logo>
 
-  <div style="font-size: 1rem; color: #007bff; text-align: center; margin-bottom: 2rem">
-    <strong>Bienvenidos</strong>
+  <div style="font-weight: 700; font-size: 2rem; text-align: center; margin-bottom: 2rem">
+    Bienvenido a <span style="color: #007bff">AppFirmas</span>
   </div>
-
-  <p style="font-size: 0.9rem; color: black; font-weight: bold; text-align: left; margin-bottom: 1.5rem">
-    Inicia sesión en tu cuenta
-  </p>
-  <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 0.5rem">
-    Accede para revisar el historial de comprobantes recibidos.
-  </p>
-  <p style="font-size: 0.75rem; color: #333; text-align: left; margin-bottom: 1rem">
-    <a
-      [href]="url?.registrationUrl"
-      style="color: #007bff; text-decoration: none"
-    >
-      Acceder por primera vez
-    </a>
-    <app-info-icon
-      style="margin-left: 0.25rem"
-      width="15px"
-      height="15px"
-    />
-  </p>
 </ng-template>
 
 <ng-template #infoNode>
   @let url = kcContext.url;
   <div style="font-size: 0.75rem; color: #333; text-align: center; margin-top: 2rem">
-    ¿No tienes cuenta?
+    ¿Aún no tienes cuenta?
     <a
       tabindex="8"
       [href]="url?.registrationUrl"
@@ -50,15 +29,6 @@
       Regístrate
     </a>
   </div>
-  <p style="font-size: 0.7rem; color: #555; text-align: left; margin-top: 2rem; line-height: 1.4">
-    Antes de ingresar sus credenciales, verifique que la dirección en la barra <br />
-    de su navegador sea: https://aut-login-unifi-pro.azurewebsites.net/. Más Información
-    <app-link-icon
-      style="margin-left: 0.25rem"
-      width="12px"
-      height="12px"
-    />
-  </p>
 </ng-template>
 
 <ng-template #socialProvidersNode>
