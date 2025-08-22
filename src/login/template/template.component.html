@@ -228,11 +228,11 @@
         padding: 2rem;
       "
     >
-      <!-- Container con efecto liquid glass -->
+      <!-- Carousel Container -->
       <div
         style="
-          background: rgba(255, 255, 255, 0.1); /* fondo semitransparente */
-          backdrop-filter: blur(15px); /* desenfoque tipo liquid glass */
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           border-radius: 1rem;
           padding: 3rem 2rem;
@@ -245,21 +245,67 @@
           border: 1px solid rgba(255, 255, 255, 0.3);
         "
       >
-        <!-- GIF centrado -->
-        <img
-          src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
-          alt="Checkmark"
-          style="width: 50%; height: auto; margin-bottom: 2rem"
-        />
+        <!-- Carousel Items -->
+        <div style="width: 100%; display: flex; overflow: hidden; justify-content: center; position: relative">
+          <div
+            style="display: flex; transition: transform 0.5s ease; width: 300%"
+            [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
+          >
+            <!-- Item 1 -->
+            <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+              <img
+                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                style="width: 50%; height: auto; margin-bottom: 2rem"
+              />
+              <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
+                Firma electrónica con validez digital
+              </h2>
+              <p style="font-size: 1.1rem; line-height: 1.5">
+                Tus documentos protegidos con tecnología avanzada<br />y en cumplimiento con la norma vigente
+              </p>
+            </div>
 
-        <!-- Título -->
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Firma electrónica con validez digital</h2>
+            <!-- Item 2 -->
+            <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+              <img
+                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                style="width: 50%; height: auto; margin-bottom: 2rem"
+              />
+              <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Seguridad garantizada</h2>
+              <p style="font-size: 1.1rem; line-height: 1.5">
+                Tus datos protegidos con cifrado avanzado<br />y cumplimiento normativo total
+              </p>
+            </div>
 
-        <!-- Texto -->
-        <p style="font-size: 1.1rem; line-height: 1.5">
-          Tus documentos protegidos con tecnología avanzada<br />
-          y en cumplimiento con la norma vigente
-        </p>
+            <!-- Item 3 -->
+            <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+              <img
+                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                style="width: 50%; height: auto; margin-bottom: 2rem"
+              />
+              <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Confianza digital</h2>
+              <p style="font-size: 1.1rem; line-height: 1.5">
+                Firma documentos de manera rápida<br />y con validez legal garantizada
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel Indicators (actúan como botones) -->
+        <div style="display: flex; gap: 0.5rem; margin-top: 2rem">
+          <span
+            *ngFor="let item of [0, 1, 2]; let i = index"
+            (click)="goToItem(i)"
+            [ngStyle]="{
+              cursor: 'pointer',
+              width: currentIndex === i ? '40px' : '12px',
+              height: '12px',
+              borderRadius: currentIndex === i ? '6px' : '50%',
+              backgroundColor: currentIndex === i ? 'white' : 'rgba(255,255,255,0.7)',
+              transition: 'all 0.3s',
+            }"
+          ></span>
+        </div>
       </div>
     </div>
   </div>

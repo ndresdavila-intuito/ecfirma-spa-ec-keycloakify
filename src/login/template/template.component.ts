@@ -29,12 +29,11 @@ import { LOGIN_I18N } from '@keycloakify/angular/login/tokens/i18n';
 import { KC_LOGIN_CONTEXT } from '@keycloakify/angular/login/tokens/kc-context';
 import { type ClassKey, getKcClsx } from 'keycloakify/login/lib/kcClsx';
 import type { Observable } from 'rxjs';
-import { BackgroundImage } from '../../../src/app/media/pictures/background/background';
 
 @Component({
   selector: 'kc-root',
   templateUrl: 'template.component.html',
-  imports: [AsyncPipe, CommonModule, KcSanitizePipe, NgTemplateOutlet, KcClassDirective, BackgroundImage],
+  imports: [AsyncPipe, CommonModule, KcSanitizePipe, NgTemplateOutlet, KcClassDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -44,6 +43,12 @@ import { BackgroundImage } from '../../../src/app/media/pictures/background/back
   ],
 })
 export class TemplateComponent extends ComponentReference {
+  // carousel beahviour
+  currentIndex = 0;
+  totalItems = 3;
+
+  private autoSlideInterval: any;
+
   i18n = inject<I18n>(LOGIN_I18N);
   renderer = inject(Renderer2);
   #cdr = inject(ChangeDetectorRef);
@@ -74,6 +79,8 @@ export class TemplateComponent extends ComponentReference {
   constructor() {
     super();
 
+    this.startAutoSlide();
+
     this.isReadyToRender$ = this.loginResourceInjectorService.injectResource(this.doUseDefaultCss);
     this.#effectRef = effect(
       () => {
@@ -91,6 +98,36 @@ export class TemplateComponent extends ComponentReference {
       },
       { manualCleanup: true },
     );
+  }
+  // 🔹 Avanza automáticamente cada 5 segundos
+  private startAutoSlide() {
+    this.autoSlideInterval = setInterval(() => {
+      this.nextItem();
+      this.#cdr.markForCheck(); // forzar actualización por OnPush
+    }, 5000);
+  }
+
+  // 🔹 Detener el carrusel (por si en el futuro lo necesitas)
+  private stopAutoSlide() {
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
+    }
+  }
+  goToItem(index: number) {
+    this.currentIndex = index;
+  }
+
+  nextItem() {
+    this.currentIndex = (this.currentIndex + 1) % this.totalItems;
+  }
+
+  prevItem() {
+    this.currentIndex = (this.currentIndex - 1 + this.totalItems) % this.totalItems;
+  }
+
+  ngOnDestroy() {
+    this.stopAutoSlide();
+    this.#effectRef.destroy();
   }
 
   isRunningInKeycloak(): boolean {
