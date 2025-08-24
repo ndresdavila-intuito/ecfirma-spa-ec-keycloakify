@@ -219,16 +219,20 @@
     <div
       style="
         width: 52%;
-        background-image: url('../../../public/keycloakify-dev-resources/login/img/background.png');
-        background-size: cover;
-        background-position: center;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 2rem;
+        overflow: hidden;
       "
     >
+      <!-- Imagen de fondo -->
+      <img
+        [src]="backgroundPngUrl"
+        alt="Background"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1"
+      />
       <!-- Carousel Container -->
       <div
         style="
@@ -255,8 +259,9 @@
             <!-- Item 1 -->
             <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
               <img
-                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                [src]="checkmarkPngUrl"
                 style="width: 50%; height: auto; margin-bottom: 2rem"
+                alt="gif"
               />
               <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
                 Firma electrónica con validez digital
@@ -269,8 +274,9 @@
             <!-- Item 2 -->
             <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
               <img
-                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                [src]="checkmarkPngUrl"
                 style="width: 50%; height: auto; margin-bottom: 2rem"
+                alt="gif"
               />
               <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Lorem ipsum</h2>
               <p style="font-size: 1.1rem; line-height: 1.5">
@@ -281,8 +287,9 @@
             <!-- Item 3 -->
             <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
               <img
-                src="../../../public/keycloakify-dev-resources/login/img/background-checkmark.gif"
+                [src]="checkmarkPngUrl"
                 style="width: 50%; height: auto; margin-bottom: 2rem"
+                alt="gif"
               />
               <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Lorem ipsum</h2>
               <p style="font-size: 1.1rem; line-height: 1.5">

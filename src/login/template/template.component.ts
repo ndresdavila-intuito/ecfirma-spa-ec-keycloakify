@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AsyncPipe, CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -15,6 +16,7 @@ import {
   type Type,
   viewChild,
   ViewContainerRef,
+  OnDestroy,
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { KcSanitizePipe } from '@keycloakify/angular/lib/pipes/kc-sanitize';
@@ -29,6 +31,8 @@ import { LOGIN_I18N } from '@keycloakify/angular/login/tokens/i18n';
 import { KC_LOGIN_CONTEXT } from '@keycloakify/angular/login/tokens/kc-context';
 import { type ClassKey, getKcClsx } from 'keycloakify/login/lib/kcClsx';
 import type { Observable } from 'rxjs';
+import backgroundPngUrl from '../../login/assets/background.png';
+import checkmarkPngUrl from '../../login/assets/background-checkmark.gif';
 
 @Component({
   selector: 'kc-root',
@@ -42,7 +46,10 @@ import type { Observable } from 'rxjs';
     },
   ],
 })
-export class TemplateComponent extends ComponentReference {
+export class TemplateComponent extends ComponentReference implements OnDestroy {
+  backgroundPngUrl = backgroundPngUrl;
+  checkmarkPngUrl = checkmarkPngUrl;
+
   // carousel beahviour
   currentIndex = 0;
   totalItems = 3;
