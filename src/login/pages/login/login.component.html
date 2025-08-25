@@ -87,8 +87,7 @@
       <form
         id="kc-form-login"
         method="post"
-        [action]="url?.loginAction"
-        (onSubmit)="isLoginButtonDisabled.set(true)"
+        (submit)="handleLogin($event)"
       >
         @if (!usernameHidden) {
           <div [kcClass]="'kcFormGroupClass'">

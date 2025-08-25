@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -66,6 +66,94 @@ export class LoginComponent extends ComponentReference {
   socialProvidersNode = viewChild<TemplateRef<HTMLElement>>('socialProvidersNode');
 
   isLoginButtonDisabled = signal(false);
+
+  // ===============================
+  // Cifrado RSA: clave pública dinámica
+  // ===============================
+  private publicKey: string | null = null;
+
+  constructor() {
+    super();
+    this.fetchPublicKey(); // Traer clave pública al iniciar
+  }
+
+  private async fetchPublicKey() {
+    try {
+      const resp = await fetch('http://localhost:5000/api/crypto/public-key');
+      if (!resp.ok) throw new Error('Error al obtener clave pública');
+      const data = await resp.json();
+      this.publicKey = data.publicKey;
+      console.log('✅ Clave pública obtenida');
+    } catch (err) {
+      console.error('❌ No se pudo obtener la clave pública:', err);
+    }
+  }
+
+  private str2ab(pem: string): ArrayBuffer {
+    const b64 = pem.replace(/-----.*?-----/g, '').replace(/\s/g, '');
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
+  private async encryptPayloadRSA(payload: object): Promise<string> {
+    if (!this.publicKey) throw new Error('Clave pública no cargada');
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(JSON.stringify(payload));
+
+    const key = await window.crypto.subtle.importKey(
+      'spki',
+      this.str2ab(this.publicKey),
+      { name: 'RSA-OAEP', hash: 'SHA-256' },
+      false,
+      ['encrypt'],
+    );
+
+    const encrypted = await window.crypto.subtle.encrypt({ name: 'RSA-OAEP' }, key, data);
+    return btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+  }
+
+  // ===============================
+  // Interceptar submit del login
+  // ===============================
+  async handleLogin(event: Event) {
+    event.preventDefault();
+    this.isLoginButtonDisabled.set(true);
+
+    // Esperar a que la clave esté cargada
+    if (!this.publicKey) await this.fetchPublicKey();
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const payload: Record<string, unknown> = {};
+    formData.forEach((value, key) => {
+      payload[key] = value;
+    });
+
+    try {
+      const encryptedData = await this.encryptPayloadRSA(payload);
+
+      const response = await fetch('http://localhost:5000/api/crypto/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ datosEncriptados: encryptedData }), // Coincidir con DTO de backend
+      });
+
+      if (!response.ok) throw new Error(await response.text());
+
+      const result = await response.json();
+      console.log('Login OK:', result);
+
+      window.location.href = '/';
+    } catch (err) {
+      console.error(err);
+      this.isLoginButtonDisabled.set(false);
+    }
+  }
 
   getLogoUrl(): string {
     return typeof window !== 'undefined' && window.location.href.includes('/realms/')
