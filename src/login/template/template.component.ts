@@ -33,6 +33,7 @@ import { type ClassKey, getKcClsx } from 'keycloakify/login/lib/kcClsx';
 import type { Observable } from 'rxjs';
 import backgroundPngUrl from '../../login/assets/background.png';
 import checkmarkPngUrl from '../../login/assets/background-checkmark.gif';
+import registroImagenPngUrl from '../../login/assets/registro-imagen.png';
 
 @Component({
   selector: 'kc-root',
@@ -50,6 +51,7 @@ export class TemplateComponent extends ComponentReference implements OnDestroy {
   isLoginLayout = true; // valor por defecto (login: formulario a la izquierda)
   backgroundPngUrl = backgroundPngUrl;
   checkmarkPngUrl = checkmarkPngUrl;
+  registroImagenPngUrl = registroImagenPngUrl;
 
   // carousel beahviour
   currentIndex = 0;
