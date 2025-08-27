@@ -20,23 +20,13 @@ import { LOGIN_I18N } from '@keycloakify/angular/login/tokens/i18n';
 import { KC_LOGIN_CONTEXT } from '@keycloakify/angular/login/tokens/kc-context';
 import type { ClassKey } from 'keycloakify/login/lib/kcClsx';
 import { InfoIcon } from '../../../../src/app/media/icons/info-icon/info-icon';
-import { LinkIcon } from '../../../../src/app/media/icons/link-icon/link-icon';
 import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/intuito-logo';
 
 @Component({
   selector: 'kc-login',
   templateUrl: 'login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    KcClassDirective,
-    KcSanitizePipe,
-    PasswordWrapperComponent,
-    NgClass,
-    CommonModule,
-    InfoIcon,
-    LinkIcon,
-    IntuitoLogo,
-  ],
+  imports: [KcClassDirective, KcSanitizePipe, PasswordWrapperComponent, NgClass, CommonModule, InfoIcon, IntuitoLogo],
   providers: [
     {
       provide: ComponentReference,
@@ -45,6 +35,8 @@ import { IntuitoLogo } from '../../../../src/app/media/pictures/intuito-logo/int
   ],
 })
 export class LoginComponent extends ComponentReference {
+  isLoginLayout = true; // formulario a la izquierda, carousel a la derecha
+
   kcContext = inject<Extract<KcContext, { pageId: 'login.ftl' }>>(KC_LOGIN_CONTEXT);
   i18n = inject<I18n>(LOGIN_I18N);
 

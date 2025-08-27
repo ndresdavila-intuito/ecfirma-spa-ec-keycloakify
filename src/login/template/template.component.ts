@@ -47,13 +47,13 @@ import checkmarkPngUrl from '../../login/assets/background-checkmark.gif';
   ],
 })
 export class TemplateComponent extends ComponentReference implements OnDestroy {
+  isLoginLayout = true; // valor por defecto (login: formulario a la izquierda)
   backgroundPngUrl = backgroundPngUrl;
   checkmarkPngUrl = checkmarkPngUrl;
 
   // carousel beahviour
   currentIndex = 0;
   totalItems = 3;
-
   private autoSlideInterval: any;
 
   i18n = inject<I18n>(LOGIN_I18N);
@@ -86,26 +86,44 @@ export class TemplateComponent extends ComponentReference implements OnDestroy {
   constructor() {
     super();
 
-    this.startAutoSlide();
+    this.startAutoSlide(); // Iniciar el carrusel automáticamente
 
+    // Inyecta los recursos necesarios (CSS) de Keycloak
     this.isReadyToRender$ = this.loginResourceInjectorService.injectResource(this.doUseDefaultCss);
     this.#effectRef = effect(
       () => {
+        console.log('[DEBUG] effect disparado, page:', this.page());
         const page = this.page();
         const pageRef = this.pageRef();
         if (!page || !pageRef) return;
 
-        const userProfileFormFields = this.userProfileFormFields();
-
+        // Crear el componente dinámicamente
         const compRef = pageRef.createComponent(page);
+        const instance = compRef.instance as any;
+
+        if ('isLoginLayout' in instance) {
+          this.isLoginLayout = instance.isLoginLayout as boolean;
+          console.log('[DEBUG] isLoginLayout de instancia:', this.isLoginLayout);
+          this.#cdr.markForCheck();
+        }
+
+        // 🔹 Pasar userProfileFormFields si existe
+        const userProfileFormFields = this.userProfileFormFields();
         if ('userProfileFormFields' in (compRef.instance as object) && userProfileFormFields) {
           compRef.setInput('userProfileFormFields', userProfileFormFields);
         }
+
+        // Llamar al hook de Keycloakify
         this.onComponentCreated(compRef.instance as object);
       },
       { manualCleanup: true },
     );
   }
+
+  ////////////////////////////////////////////////////////////////////
+  // CAROUSEL LOGIC
+  ////////////////////////////////////////////////////////////////////
+
   // 🔹 Avanza automáticamente cada 5 segundos
   private startAutoSlide() {
     this.autoSlideInterval = setInterval(() => {
@@ -123,19 +141,20 @@ export class TemplateComponent extends ComponentReference implements OnDestroy {
   goToItem(index: number) {
     this.currentIndex = index;
   }
-
   nextItem() {
     this.currentIndex = (this.currentIndex + 1) % this.totalItems;
   }
-
   prevItem() {
     this.currentIndex = (this.currentIndex - 1 + this.totalItems) % this.totalItems;
   }
-
   ngOnDestroy() {
     this.stopAutoSlide();
     this.#effectRef.destroy();
   }
+
+  /////////////////////////////////////////////////////////////////////
+  // KEYCLOAK INTERNAL LOGIC
+  /////////////////////////////////////////////////////////////////////
 
   isRunningInKeycloak(): boolean {
     return typeof window !== 'undefined' && window.location.href.includes('/realms/');

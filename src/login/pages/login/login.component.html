@@ -5,18 +5,22 @@
 @let url = kcContext.url;
 @let login = kcContext.login;
 
+<!-- Header -->
 <ng-template #headerNode>
+  <!-- Logo Intuito -->
   <app-intuito-logo
     [width]="'60%'"
     [height]="'auto'"
     style="margin: 0 auto 3rem auto; display: block"
   ></app-intuito-logo>
 
+  <!-- Welcome Message -->
   <div style="font-weight: 700; font-size: 2rem; text-align: center; margin-bottom: 2rem">
     Bienvenido a <span style="color: #007bff">AppFirmas</span>
   </div>
 </ng-template>
 
+<!-- Info abajo del formulario -->
 <ng-template #infoNode>
   @let url = kcContext.url;
   <div style="font-size: 0.75rem; color: #333; text-align: center; margin-top: 2rem">
@@ -31,6 +35,7 @@
   </div>
 </ng-template>
 
+<!-- Social Providers -->
 <ng-template #socialProvidersNode>
   @let realm = kcContext.realm;
   @let social = kcContext.social;
@@ -80,6 +85,7 @@
   }
 </ng-template>
 
+<!-- Form -->
 <div id="kc-form">
   <div id="kc-form-wrapper">
     <!-- login.component.html -->

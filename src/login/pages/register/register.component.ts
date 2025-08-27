@@ -53,6 +53,8 @@ import { HttpClient, HttpXhrBackend } from '@angular/common/http';
   ],
 })
 export class RegisterComponent extends ComponentReference {
+  isLoginLayout = false; // formulario a la derecha, carousel a la izquierda
+
   private http = new HttpClient(new HttpXhrBackend({ build: () => new XMLHttpRequest() }));
 
   kcContext = inject<Extract<KcContext, { pageId: 'register.ftl' }>>(KC_LOGIN_CONTEXT);

@@ -35,10 +35,16 @@
       z-index: -1 !important;
     }
   }
+  .row-reverse-important {
+    flex-direction: row-reverse !important;
+  }
 </style>
 
 @if (isReadyToRender) {
-  <div style="display: flex; height: 100vh; position: relative">
+  <div
+    style="display: flex; height: 100vh; position: relative"
+    [ngClass]="{ 'row-reverse-important': !isLoginLayout }"
+  >
     <!-- Imagen de fondo -->
     <img
       class="background-img"
