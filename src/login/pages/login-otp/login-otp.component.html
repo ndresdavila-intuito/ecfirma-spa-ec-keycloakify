@@ -1,9 +1,16 @@
 @let url = kcContext.url;
 @let messagesPerField = kcContext.messagesPerField;
 
-<ng-template #headerNode>
+<ng-template #headerNode></ng-template>
+
+<form
+  id="kc-otp-login-form"
+  method="post"
+  [kcClass]="['kcFormClass']"
+  [action]="url.loginAction"
+>
   <div class="flex flex-col items-center text-center gap-4">
-    <div style="color: #007bff; font-weight: 600; font-size: 1.2rem; margin-bottom: 1rem">
+    <div style="color: #ffffff; font-weight: 600; font-size: 1.2rem; margin-bottom: 1rem">
       Verifica tu correo electrónico
     </div>
 
@@ -12,18 +19,10 @@
       [height]="'60px'"
     ></app-verificar-correo>
 
-    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
+    <p style="color: white; font-size: 0.8rem; white-space: nowrap">
       Enviamos un código de verificación a <strong>[correo&#64;outlook.com]</strong>
     </p>
   </div>
-</ng-template>
-
-<form
-  id="kc-otp-login-form"
-  method="post"
-  [kcClass]="['kcFormClass']"
-  [action]="url.loginAction"
->
   <!-- OTP FIELD -->
   <div [kcClass]="'kcFormGroupClass'">
     <div
@@ -49,7 +48,7 @@
             [attr.name]="index === 0 ? 'otp' : null"
             [attr.id]="index === 0 ? 'otp' : null"
             class="custom-otp-input"
-            type="text"
+            type="password"
             maxlength="1"
             [attr.value]="token"
             (input)="events.input($event)"
@@ -72,13 +71,14 @@
   </div>
 
   <div style="text-align: center">
-    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
-      ¿No recibiste el código? <span style="color: #007bff; font-size: 0.8rem; white-space: nowrap">Reenviar</span>
+    <p style="color: white; font-size: 0.8rem; white-space: nowrap">
+      ¿No recibiste el código?
+      <span style="color: #ffffff; font-size: 0.8rem; white-space: nowrap; font-weight: bolder">Reenviar</span>
     </p>
 
-    <p style="color: black; font-size: 0.8rem; white-space: nowrap">
+    <p style="color: white; font-size: 0.8rem; white-space: nowrap">
       ¿Necesitas cambiar el correo?
-      <span style="color: #007bff; font-size: 0.8rem; white-space: nowrap">Modificar</span>
+      <span style="color: #ffffff; font-size: 0.8rem; white-space: nowrap; font-weight: bolder">Modificar</span>
     </p>
   </div>
 

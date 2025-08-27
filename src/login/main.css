@@ -48,6 +48,10 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   margin: 0 0.3rem;
+
+  background: transparent !important; /* fondo transparente */
+  color: white !important; /* texto blanco */
+  caret-color: white !important; /* cursor blanco */
 }
 
 .kcInputWrapperClass {

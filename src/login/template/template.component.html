@@ -38,247 +38,32 @@
   .row-reverse-important {
     flex-direction: row-reverse !important;
   }
+  .background-img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 </style>
 
 @if (isReadyToRender) {
-  <div
-    style="display: flex; height: 100vh; position: relative"
-    [ngClass]="{ 'row-reverse-important': !isLoginLayout }"
-  >
-    <!-- Imagen de fondo -->
+  <div style="position: relative; width: 100%; height: 100vh">
     <img
       class="background-img"
       [src]="backgroundPngUrl"
       alt="Background"
       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1"
     />
-
-    <!-- Sección izquierda (formulario) -->
-    <div
-      class="login-section"
-      style="
-        width: 48%;
-        background: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      "
-    >
-      <div
-        [kcClass]="'kcLoginClass'"
-        style="flex: 1; display: flex; flex-direction: column"
-      >
-        <!-- Contenido actual de login -->
-        <div [kcClass]="'kcLoginClass'">
-          <div [kcClass]="'kcFormCardClass'">
-            <header [kcClass]="'kcFormHeaderClass'">
-              <!-- Locale switcher -->
-              @if (i18n.enabledLanguages.length > 1) {
-                <div
-                  id="kc-locale"
-                  [kcClass]="'kcLocaleMainClass'"
-                >
-                  <div
-                    id="kc-locale-wrapper"
-                    [kcClass]="'kcLocaleWrapperClass'"
-                  >
-                    <div
-                      id="kc-locale-dropdown"
-                      class="menu-button-links"
-                      [kcClass]="'kcLocaleDropDownClass'"
-                    >
-                      <button
-                        tabindex="1"
-                        id="kc-current-locale-link"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        aria-controls="language-switch1"
-                        [attr.aria-label]="i18n.msgStr('languages')"
-                      >
-                        {{ i18n.currentLanguage.label }}
-                      </button>
-                      <ul
-                        role="menu"
-                        tabindex="-1"
-                        aria-labelledby="kc-current-locale-link"
-                        aria-activedescendant=""
-                        id="language-switch1"
-                        [kcClass]="'kcLocaleListClass'"
-                      >
-                        @for (entry of i18n.enabledLanguages; track entry; let idx = $index) {
-                          <li
-                            role="none"
-                            [kcClass]="'kcLocaleListItemClass'"
-                          >
-                            <a
-                              role="menuitem"
-                              tabindex="-1"
-                              [href]="entry.href"
-                              [kcClass]="'kcLocaleItemClass'"
-                              [id]="'language-' + idx"
-                            >
-                              {{ entry.label }}
-                            </a>
-                          </li>
-                        }
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              }
-
-              <!-- Header content -->
-              <ng-template #node>
-                @if (auth && !auth.showUsername && !auth.showResetCredentials) {
-                  <h1 id="kc-page-title">
-                    @let header = headerNode && headerNode();
-                    @if (header) {
-                      <ng-container [ngTemplateOutlet]="header" />
-                    }
-                  </h1>
-                } @else {
-                  <div
-                    id="kc-username"
-                    [kcClass]="'kcFormGroupClass'"
-                  >
-                    <label id="kc-attempted-username">{{ auth?.attemptedUsername }}</label>
-                    <a
-                      id="reset-login"
-                      [href]="url?.loginRestartFlowUrl"
-                      [attr.aria-label]="i18n.msgStr('restartLoginTooltip')"
-                    >
-                      <div class="kc-login-tooltip">
-                        <i [kcClass]="'kcResetFlowIcon'"></i>
-                        <span class="kc-tooltip-text">
-                          {{ i18n.msgStr('restartLoginTooltip') }}
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-                }
-              </ng-template>
-
-              @if (displayRequiredFields) {
-                <div [kcClass]="'kcContentWrapperClass'">
-                  <div
-                    class="subtitle"
-                    [kcClass]="'kcLabelWrapperClass'"
-                  >
-                    <span class="subtitle">
-                      <span class="required">*</span>
-                      {{ i18n.msgStr('requiredFields') }}
-                    </span>
-                  </div>
-                  <div class="col-md-10">
-                    <ng-container [ngTemplateOutlet]="node" />
-                  </div>
-                </div>
-              } @else {
-                <ng-container [ngTemplateOutlet]="node" />
-              }
-            </header>
-
-            <div id="kc-content">
-              <div id="kc-content-wrapper">
-                <!-- Message display -->
-                @if (displayMessage && message && (message.type !== 'warning' || !isAppInitiatedAction)) {
-                  <div
-                    [kcClass]="'kcAlertClass'"
-                    [ngClass]="message.type === 'error' ? 'pf-m-danger' : 'pf-m-' + message.type"
-                    [class]="'alert-' + message.type"
-                  >
-                    <div class="pf-c-alert__icon">
-                      @switch (message.type) {
-                        @case ('success') {
-                          <span [kcClass]="'kcFeedbackSuccessIcon'"></span>
-                        }
-                        @case ('warning') {
-                          <span [kcClass]="'kcFeedbackWarningIcon'"></span>
-                        }
-                        @case ('info') {
-                          <span [kcClass]="'kcFeedbackInfoIcon'"></span>
-                        }
-                        @case ('error') {
-                          <span [kcClass]="'kcFeedbackErrorIcon'"></span>
-                        }
-                      }
-                    </div>
-                    <span
-                      [kcClass]="'kcAlertTitleClass'"
-                      [innerHTML]="message.summary | kcSanitize: 'html'"
-                    ></span>
-                  </div>
-                }
-                <!-- Content -->
-                <ng-template #pageRef></ng-template>
-
-                @if (!!auth && auth?.showTryAnotherWayLink) {
-                  <form
-                    id="kc-select-try-another-way-form"
-                    method="post"
-                    [action]="url?.loginAction"
-                  >
-                    <div [kcClass]="'kcFormGroupClass'">
-                      <div [kcClass]="'kcFormGroupClass'">
-                        <input
-                          type="hidden"
-                          name="tryAnotherWay"
-                          value="on"
-                        />
-                        <a
-                          id="try-another-way"
-                          (click)="tryAnotherWay()"
-                        >
-                          {{ i18n.msgStr('doTryAnotherWay') }}
-                        </a>
-                      </div>
-                    </div>
-                  </form>
-                }
-                @let socialProviders = socialProvidersNode && socialProvidersNode();
-                @if (socialProviders) {
-                  <ng-container [ngTemplateOutlet]="socialProviders" />
-                }
-                <!-- Info display -->
-                @if (displayInfo) {
-                  <div
-                    id="kc-info"
-                    [kcClass]="'kcSignUpClass'"
-                  >
-                    <div>
-                      @let info = infoNode && infoNode();
-                      @if (info) {
-                        <ng-container [ngTemplateOutlet]="info" />
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-        ...
-      </div>
-    </div>
-
-    <!-- Sección derecha (imagen)-->
-    <div
-      class="carousel-section"
-      style="
-        width: 52%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-        overflow: hidden;
-      "
-    >
-      <!-- Carousel Container -->
+    @if (page()?.name === 'LoginOtpComponent') {
       <div
         style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
@@ -288,95 +73,356 @@
           flex-direction: column;
           align-items: center;
           text-align: center;
-          color: white;
-          max-width: 90%;
+          color: black;
+          max-width: 600px;
+          width: 100%;
           border: 1px solid rgba(255, 255, 255, 0.3);
         "
       >
-        <!-- Carousel Items -->
-        <div style="width: 100%; display: flex; overflow: hidden; justify-content: center; position: relative">
-          <div
-            style="display: flex; transition: transform 0.5s ease"
-            [style.width]="isLoginLayout ? '300%' : '100%'"
-            [style.transform]="isLoginLayout ? 'translateX(-' + currentIndex * 100 + '%)' : 'none'"
-          >
-            <!-- Si es loginLayout (true), mostrar los 3 items -->
-            <ng-container *ngIf="isLoginLayout; else singleItem">
-              <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
-                <img
-                  [src]="checkmarkPngUrl"
-                  style="width: 50%; margin-bottom: 2rem"
-                  alt="gif"
-                />
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
-                  Firma electrónica con validez digital
-                </h2>
-                <p style="font-size: 1.1rem; line-height: 1.5">
-                  Tus documentos protegidos con tecnología avanzada<br />y en cumplimiento con la norma vigente
-                </p>
-              </div>
-              <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
-                <img
-                  [src]="checkmarkPngUrl"
-                  style="width: 50%; margin-bottom: 2rem"
-                  alt="gif"
-                />
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Firma desde cualquier lugar</h2>
-                <p style="font-size: 1.1rem; line-height: 1.5">
-                  Accede y firma tus documentos de manera segura en<br />segundos, estés donde estés.
-                </p>
-              </div>
-              <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
-                <img
-                  [src]="checkmarkPngUrl"
-                  style="width: 50%; margin-bottom: 2rem"
-                  alt="gif"
-                />
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
-                  Olvídate del papel y los trámites lentos
-                </h2>
-                <p style="font-size: 1.1rem; line-height: 1.5">
-                  Optimiza tus procesos reduciendo costos y tiempo<br />con soluciones 100% digitales.
-                </p>
-              </div>
-            </ng-container>
+        <ng-template #pageRef></ng-template>
+      </div>
+    } @else {
+      <!-- Layout de 2 columnas -->
+      <div
+        style="display: flex; height: 100vh; position: relative"
+        [ngClass]="{ 'row-reverse-important': !isLoginLayout }"
+      >
+        <!-- Imagen de fondo -->
+        <img
+          class="background-img"
+          [src]="backgroundPngUrl"
+          alt="Background"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1"
+        />
 
-            <!-- Template para registro (single item) -->
-            <ng-template #singleItem>
-              <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
-                <img
-                  [src]="registroImagenPngUrl"
-                  style="width: 50%; margin-bottom: 2rem"
-                  alt="gif"
-                />
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Obten tu firma electrónica</h2>
-                <p style="font-size: 1.1rem; line-height: 1.5">
-                  El registro es el primer paso para acceder a una firma válida y confiable.
-                </p>
+        <!-- Sección izquierda (formulario) -->
+        <div
+          class="login-section"
+          style="
+            width: 48%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          "
+        >
+          <div
+            [kcClass]="'kcLoginClass'"
+            style="flex: 1; display: flex; flex-direction: column"
+          >
+            <!-- Contenido actual de login -->
+            <div [kcClass]="'kcLoginClass'">
+              <div [kcClass]="'kcFormCardClass'">
+                <header [kcClass]="'kcFormHeaderClass'">
+                  <!-- Locale switcher -->
+                  @if (i18n.enabledLanguages.length > 1) {
+                    <div
+                      id="kc-locale"
+                      [kcClass]="'kcLocaleMainClass'"
+                    >
+                      <div
+                        id="kc-locale-wrapper"
+                        [kcClass]="'kcLocaleWrapperClass'"
+                      >
+                        <div
+                          id="kc-locale-dropdown"
+                          class="menu-button-links"
+                          [kcClass]="'kcLocaleDropDownClass'"
+                        >
+                          <button
+                            tabindex="1"
+                            id="kc-current-locale-link"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            aria-controls="language-switch1"
+                            [attr.aria-label]="i18n.msgStr('languages')"
+                          >
+                            {{ i18n.currentLanguage.label }}
+                          </button>
+                          <ul
+                            role="menu"
+                            tabindex="-1"
+                            aria-labelledby="kc-current-locale-link"
+                            aria-activedescendant=""
+                            id="language-switch1"
+                            [kcClass]="'kcLocaleListClass'"
+                          >
+                            @for (entry of i18n.enabledLanguages; track entry; let idx = $index) {
+                              <li
+                                role="none"
+                                [kcClass]="'kcLocaleListItemClass'"
+                              >
+                                <a
+                                  role="menuitem"
+                                  tabindex="-1"
+                                  [href]="entry.href"
+                                  [kcClass]="'kcLocaleItemClass'"
+                                  [id]="'language-' + idx"
+                                >
+                                  {{ entry.label }}
+                                </a>
+                              </li>
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Header content -->
+                  <ng-template #node>
+                    @if (auth && !auth.showUsername && !auth.showResetCredentials) {
+                      <h1 id="kc-page-title">
+                        @let header = headerNode && headerNode();
+                        @if (header) {
+                          <ng-container [ngTemplateOutlet]="header" />
+                        }
+                      </h1>
+                    } @else {
+                      <div
+                        id="kc-username"
+                        [kcClass]="'kcFormGroupClass'"
+                      >
+                        <label id="kc-attempted-username">{{ auth?.attemptedUsername }}</label>
+                        <a
+                          id="reset-login"
+                          [href]="url?.loginRestartFlowUrl"
+                          [attr.aria-label]="i18n.msgStr('restartLoginTooltip')"
+                        >
+                          <div class="kc-login-tooltip">
+                            <i [kcClass]="'kcResetFlowIcon'"></i>
+                            <span class="kc-tooltip-text">
+                              {{ i18n.msgStr('restartLoginTooltip') }}
+                            </span>
+                          </div>
+                        </a>
+                      </div>
+                    }
+                  </ng-template>
+
+                  @if (displayRequiredFields) {
+                    <div [kcClass]="'kcContentWrapperClass'">
+                      <div
+                        class="subtitle"
+                        [kcClass]="'kcLabelWrapperClass'"
+                      >
+                        <span class="subtitle">
+                          <span class="required">*</span>
+                          {{ i18n.msgStr('requiredFields') }}
+                        </span>
+                      </div>
+                      <div class="col-md-10">
+                        <ng-container [ngTemplateOutlet]="node" />
+                      </div>
+                    </div>
+                  } @else {
+                    <ng-container [ngTemplateOutlet]="node" />
+                  }
+                </header>
+
+                <div id="kc-content">
+                  <div id="kc-content-wrapper">
+                    <!-- Message display -->
+                    @if (displayMessage && message && (message.type !== 'warning' || !isAppInitiatedAction)) {
+                      <div
+                        [kcClass]="'kcAlertClass'"
+                        [ngClass]="message.type === 'error' ? 'pf-m-danger' : 'pf-m-' + message.type"
+                        [class]="'alert-' + message.type"
+                      >
+                        <div class="pf-c-alert__icon">
+                          @switch (message.type) {
+                            @case ('success') {
+                              <span [kcClass]="'kcFeedbackSuccessIcon'"></span>
+                            }
+                            @case ('warning') {
+                              <span [kcClass]="'kcFeedbackWarningIcon'"></span>
+                            }
+                            @case ('info') {
+                              <span [kcClass]="'kcFeedbackInfoIcon'"></span>
+                            }
+                            @case ('error') {
+                              <span [kcClass]="'kcFeedbackErrorIcon'"></span>
+                            }
+                          }
+                        </div>
+                        <span
+                          [kcClass]="'kcAlertTitleClass'"
+                          [innerHTML]="message.summary | kcSanitize: 'html'"
+                        ></span>
+                      </div>
+                    }
+                    <!-- Content -->
+                    <ng-template #pageRef></ng-template>
+
+                    @if (!!auth && auth?.showTryAnotherWayLink) {
+                      <form
+                        id="kc-select-try-another-way-form"
+                        method="post"
+                        [action]="url?.loginAction"
+                      >
+                        <div [kcClass]="'kcFormGroupClass'">
+                          <div [kcClass]="'kcFormGroupClass'">
+                            <input
+                              type="hidden"
+                              name="tryAnotherWay"
+                              value="on"
+                            />
+                            <a
+                              id="try-another-way"
+                              (click)="tryAnotherWay()"
+                            >
+                              {{ i18n.msgStr('doTryAnotherWay') }}
+                            </a>
+                          </div>
+                        </div>
+                      </form>
+                    }
+                    @let socialProviders = socialProvidersNode && socialProvidersNode();
+                    @if (socialProviders) {
+                      <ng-container [ngTemplateOutlet]="socialProviders" />
+                    }
+                    <!-- Info display -->
+                    @if (displayInfo) {
+                      <div
+                        id="kc-info"
+                        [kcClass]="'kcSignUpClass'"
+                      >
+                        <div>
+                          @let info = infoNode && infoNode();
+                          @if (info) {
+                            <ng-container [ngTemplateOutlet]="info" />
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
               </div>
-            </ng-template>
+            </div>
+            ...
           </div>
         </div>
 
-        <!-- Carousel Indicators (solo loginLayout) -->
+        <!-- Sección derecha (carousel)-->
         <div
-          *ngIf="isLoginLayout"
-          style="display: flex; gap: 0.5rem; margin-top: 2rem"
+          class="carousel-section"
+          style="
+            width: 52%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow: hidden;
+          "
         >
-          <span
-            *ngFor="let item of [0, 1, 2]; let i = index"
-            (click)="goToItem(i)"
-            [ngStyle]="{
-              cursor: 'pointer',
-              width: currentIndex === i ? '40px' : '12px',
-              height: '12px',
-              borderRadius: currentIndex === i ? '6px' : '50%',
-              backgroundColor: currentIndex === i ? 'white' : 'rgba(255,255,255,0.7)',
-              transition: 'all 0.3s',
-            }"
-          ></span>
+          <!-- Carousel Container -->
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.1);
+              backdrop-filter: blur(15px);
+              -webkit-backdrop-filter: blur(15px);
+              border-radius: 1rem;
+              padding: 3rem 2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              color: white;
+              max-width: 90%;
+              border: 1px solid rgba(255, 255, 255, 0.3);
+            "
+          >
+            <!-- Carousel Items -->
+            <div style="width: 100%; display: flex; overflow: hidden; justify-content: center; position: relative">
+              <div
+                style="display: flex; transition: transform 0.5s ease"
+                [style.width]="isLoginLayout ? '300%' : '100%'"
+                [style.transform]="isLoginLayout ? 'translateX(-' + currentIndex * 100 + '%)' : 'none'"
+              >
+                <!-- Si es loginLayout (true), mostrar los 3 items -->
+                <ng-container *ngIf="isLoginLayout; else singleItem">
+                  <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+                    <img
+                      [src]="checkmarkPngUrl"
+                      style="width: 50%; margin-bottom: 2rem"
+                      alt="gif"
+                    />
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
+                      Firma electrónica con validez digital
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.5">
+                      Tus documentos protegidos con tecnología avanzada<br />y en cumplimiento con la norma vigente
+                    </p>
+                  </div>
+                  <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+                    <img
+                      [src]="checkmarkPngUrl"
+                      style="width: 50%; margin-bottom: 2rem"
+                      alt="gif"
+                    />
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
+                      Firma desde cualquier lugar
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.5">
+                      Accede y firma tus documentos de manera segura en<br />segundos, estés donde estés.
+                    </p>
+                  </div>
+                  <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+                    <img
+                      [src]="checkmarkPngUrl"
+                      style="width: 50%; margin-bottom: 2rem"
+                      alt="gif"
+                    />
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
+                      Olvídate del papel y los trámites lentos
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.5">
+                      Optimiza tus procesos reduciendo costos y tiempo<br />con soluciones 100% digitales.
+                    </p>
+                  </div>
+                </ng-container>
+
+                <!-- Template para registro (single item) -->
+                <ng-template #singleItem>
+                  <div style="flex: 1 0 100%; display: flex; flex-direction: column; align-items: center">
+                    <img
+                      [src]="registroImagenPngUrl"
+                      style="width: 50%; margin-bottom: 2rem"
+                      alt="gif"
+                    />
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">Obten tu firma electrónica</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.5">
+                      El registro es el primer paso para acceder a una firma válida y confiable.
+                    </p>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+
+            <!-- Carousel Indicators (solo loginLayout) -->
+            <div
+              *ngIf="isLoginLayout"
+              style="display: flex; gap: 0.5rem; margin-top: 2rem"
+            >
+              <span
+                *ngFor="let item of [0, 1, 2]; let i = index"
+                (click)="goToItem(i)"
+                [ngStyle]="{
+                  cursor: 'pointer',
+                  width: currentIndex === i ? '40px' : '12px',
+                  height: '12px',
+                  borderRadius: currentIndex === i ? '6px' : '50%',
+                  backgroundColor: currentIndex === i ? 'white' : 'rgba(255,255,255,0.7)',
+                  transition: 'all 0.3s',
+                }"
+              ></span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 }

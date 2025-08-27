@@ -27,7 +27,7 @@ import type { I18n } from '../../i18n';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [KcClassDirective, AsyncPipe],
+  imports: [KcClassDirective],
   templateUrl: 'password-wrapper.component.html',
   providers: [
     {
